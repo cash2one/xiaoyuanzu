@@ -1,0 +1,330 @@
+/*------------------------------------note------------------------------------*/
+/*note1: to think about the padding and margin for text in this css*/
+/*----------------------------------webfont----------------------------------*/
+/*no necessary*/
+/*-----------------------------------banner-----------------------------------*/
+.ui.vertical.basic.segment.banner {
+    height: 689px;
+    background-image: url('../image/租房项目切图/1首页/cover_beautified.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 0;
+    margin: 0;
+    /*note: search "缩小窗口时CSS背景图出现右侧空白" for more info*/
+    width:expression(document.body.clientWidth <= 960? "960px": "auto");
+    min-width:960px;
+}
+/*---------------------------------masterhead---------------------------------*/
+.ui.vertical.segment.masterhead {
+    height: 75px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0;
+    margin: 0;
+}
+
+.ui.text.menu.in-masterhead {
+    height: 75px;
+    padding: 0;
+    margin: 0;
+}
+
+.image-logo.in-menu-masterhead {
+    margin: 15px 9px 22px 280px;
+}
+
+.text-logo.in-menu-masterhead {
+    min-width: 84px;
+    /*font-family: "webfont" !important;*/
+    font-size: 28px;
+    /*font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;*/
+    color: #ffffff;
+    padding-top: 12px;
+    /*note: margin-left of text is better to be auto or 0*/
+    margin: 19px auto 15px 0;
+}
+
+.ui.right.text.menu.in-menu-masterhead {
+    height: 33px;
+    padding: 0;
+    margin: 20px 283px 22px 584px;
+}
+
+.text-login.in-menu-masterhead {
+    min-width: 32px;
+    font-size: 16px;
+    color: #ffffff;
+    padding-top: 6px;
+    /*note: margin-left of text is better to be auto or 0*/
+    margin: 0 auto 0 0;
+}
+
+.ui.circular.button.in-menu-masterhead {
+    background-color: #fcc416;
+    width: 112px;
+    height: 33px;
+    padding: 0;
+    margin: 0 0 0 30px;
+}
+
+.image-key.in-menu-masterhead {
+    /*note: see note for padding-bottom in .text-register.in-menu-masterhead*/
+    margin: 6px 13px -4px 0;
+}
+
+.text-register.in-menu-masterhead {
+    min-width: 32px;
+    font-size: 16px;
+    color: #654303;
+    /*note: padding-bottom is not applied because of the image-key.
+    Change margin-bottom of image-key and it will be seen.*/
+    /*padding-bottom: 12px;*/
+    /*note: margin-left of text is better to be auto or 0*/
+    margin: 5px auto 5px 0;
+    /*note1: margin-top/bottom is not applicable for inline elements like span.
+    Make span display: inline-block so that it can be inline as well as block.*/
+    /*note2: display is not necessay as the padding-bottom is not applied.
+    see above note for padding-bottom.*/
+    /*display: inline-block;*/
+}
+
+/*--------------------------------searchpanel--------------------------------*/
+.ui.vertical.basic.segment.seachpanel {
+    height: 109px;
+    background-color: rgba(252, 195, 22, 0.8);
+    /*note1: the opacity has been set 0.8 as in above*/
+    /*note2: below opacity: 0.6 will be also inherited by the son blocks*/
+    /*opacity: 0.6;*/
+    /*note: see note in son container*/
+    /*padding: 0;*/
+    padding-top: 23px;
+    padding-bottom: 23px;
+    position: relative;
+    top: 506px;
+    /*doubt: if a translate is used, then a left is needed.
+    because the positioning point, no matter translated or not
+    is put at the same place as its father's positioning point.*/
+    /*transform: translate(-50%,0);*/
+}
+
+.ui.container.searchpanel,
+.ui.borderless.menu.in-searchpanel {
+    width: 577px;
+    height: 63px;
+    /*note: for removing the white borders*/
+    border: 0;
+    border-radius: 0 10px 10px 0;
+    /*note: it is better to margin a container by padding in its father box*/
+    padding: 0;
+    margin: 0;
+}
+
+.ui.search.selection.dropdown.in-searchpanel {
+    width: 458px;
+    height: 63px;
+    background-color: #ffffff;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown.icon.in-dropdown-searchpanel {
+    color: #ffffff;
+}
+
+.default.text.in-dropdown-searchpanel {
+    /*min-width: 340px;*/
+    font-size: 20px;
+    /*or the font color will be overrided by .ui.dropdown > .default.text*/
+    color: #979797 !important;
+    padding: 24px 37px 25px 24px;
+    margin: 0;
+}
+
+.image-dropdown.in-dropdown-searchpanel {
+    margin: 29px 8px 24px auto;
+}
+
+.ui.button.in-searchpanel {
+    width: 119px;
+    height: 63px;
+    border-radius: 0 8px 8px 0;
+    background-color: #8dc63f;
+    /*style for text in button*/
+    padding-top: 19px;
+    margin: 0 0 0 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/*-------------------------------displaywindow-------------------------------*/
+.ui.vertical.basic.segment.displaywindow {
+    height: 753px;
+    background-image: url('../image/租房项目切图/1首页/photo_bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    padding: 0;
+    /*doubt: confusing why bg-image has an invisible margin 60px*/
+    margin: 0;
+    /*note: search "缩小窗口时CSS背景图出现右侧空白" for more info*/
+    width:expression(document.body.clientWidth <= 960? "960px": "auto");
+    min-width:960px;
+}
+
+.ui.container.displaywindow {
+    width: 879px;
+    /*note: height is uncessary for a container*/
+    /*height: 753px;*/
+    /*note: better to use padding for a container than margin*/
+    padding-top: 60px;
+    margin: 0;
+}
+
+.ui.header.in-displaywindow {
+    min-width: 156px;
+    height: 38px;
+    font-size: 26px;
+    color: #000000;
+    margin-top: 0;
+    margin-bottom: 23px;
+}
+
+.ui.three.column.grid.in-displaywindow {
+    margin-bottom: 40px;
+}
+
+.column.in-displaywindow {
+
+}
+
+.ui.card.in-displaywindow {
+    overflow: hidden;
+    height: 228px;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+.image.in-card {
+
+}
+
+.label.in-card {
+    width: 74px;
+    min-width: 56px;
+    height: 26px;
+    border-radius: 0 10px 0 0;
+    font-size: 14px;
+    text-align: center;
+    padding-top: 3px;
+    color: #ffffff;
+    background-color: #f4c32a;
+    position: absolute;
+    left: 100%;
+    transform: translate(-100%,0);
+}
+
+.content.in-card {
+    padding-left: 26px !important;
+    padding-right: 26px !important;
+    padding-bottom: 17px !important;
+}
+
+.header.in-card {
+    min-width: 144px;
+    height: 27px;
+    font-size: 18px;
+    color: #000000;
+    padding-top: 2px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.ui.divider.in-card {
+    width: 110px;
+    border: solid 1px #d6d6d6;
+    margin-top: 0;
+    margin-bottom: 18px;
+    margin-left: 55px;
+}
+
+.description.in-card {
+    min-width: 227px;
+    height: 40px;
+    font-size: 14px;
+    color: #9b9b9b;
+}
+
+/*-----------------------------------footer-----------------------------------*/
+/*do not repeat yourself*/
+.ui.vertical.segment.footer {
+    height: 281px;
+}
+
+.ui.container.footer {
+    width: 879px;
+    min-width: 879px;
+    /*note: height is uncessary for a container*/
+    /*height: 281px;*/
+    /*note: better to use padding for a container than margin*/
+}
+
+.ui.grid.footer {
+
+}
+
+.four.wide.column.in-footer {
+    padding-top: 24px;
+    background-color: #ffffff;
+}
+
+.ui.vertical.text.menu.in-footer {
+
+}
+
+.item.header-in-menu-footer {
+    min-width: 64px;
+    font-size: 16px;
+    color: #666666;
+    padding-left: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 20px !important;
+}
+
+.item.in-menu-footer {
+    min-width: 48px;
+    font-size: 12px;
+    color: #979797;
+    padding-left: 0 !important;
+    margin-top: 0px !important;
+    margin-bottom: 11px !important;
+}
+
+.ui.divider.in-footer {
+    border: solid 1px #d8d8d8;
+    margin-top: 19px;
+}
+
+.text-left.in-footer {
+    min-width: 226px;
+    font-size: 13px;
+    color: #979797;
+    margin-top: 8px;
+    margin-bottom: 22px;
+    display: inline-block;
+}
+
+.text-right.in-footer {
+    min-width: 128px;
+    font-size: 13px;
+    color: #979797;
+    margin-top: 8px;
+    margin-bottom: 22px;
+    margin-left: 508px;
+    display: inline-block;
+    float: right;
+}

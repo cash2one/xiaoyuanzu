@@ -1,0 +1,33 @@
+body{
+  background: url(../image/详情页.png);
+  background-size:cover;;
+  background-repeat: no-repeat;
+}
+
+.ui.basic.segment._big{
+ width:100%;
+ height:900px;
+ background-color: rgba(0,0,0,0.8);
+
+}
+
+
+.ui.segment._body{
+   width: 484px;
+   height: 321px;
+   margin-left: 478px;
+   margin-top: 290px;
+   margin-bottom: 289px;
+   margin-right: 478px;
+   box-sizing: border-box;
+   border-radius:10px;
+   padding-top:0;
+ }
+
+.ui.inverted.right.labeled.icon.circular.right.floated.button{
+  background: url(../image/5注册登录/button.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width:118px ;
+  height:40px ;
+}

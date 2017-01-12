@@ -1,0 +1,213 @@
+/*------------------------------------note------------------------------------*/
+/*to be added*/
+/*----------------------------------webfont----------------------------------*/
+/*no necessary*/
+/*-------------------------------banner(begin)-------------------------------*/
+.ui.vertical.basic.segment.banner {
+    height: 228px;
+    background-image: url('../image/banner_bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 0;
+    margin: 0;
+    /*note: search "缩小窗口时CSS背景图出现右侧空白" for more info*/
+    width:expression(document.body.clientWidth <= 960? "960px": "auto");
+    min-width:960px;
+}
+
+.text-srch-rslt.in-banner {
+    min-width: 336px;
+    width: 878px;
+    height: 38px;
+    font-size: 26px;
+    color: #ffffff;
+    top: 103px;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%,0);
+}
+/*-------------------------------banner(ender)-------------------------------*/
+/*-----------------------------masterhead(begin)-----------------------------*/
+.ui.vertical.segment.masterhead {
+    height: 75px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0;
+    margin: 0;
+}
+
+.ui.text.menu.in-masterhead {
+    height: 75px;
+    padding: 0;
+    margin: 0;
+}
+
+.image-logo.in-menu-masterhead {
+    margin: 15px 9px 22px 280px;
+}
+
+.text-logo.in-menu-masterhead {
+    min-width: 84px;
+    /*font-family: "webfont" !important;*/
+    font-size: 28px;
+    /*font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;*/
+    color: #ffffff;
+    padding-top: 12px;
+    /*note: margin-left of text is better to be auto or 0*/
+    margin: 19px auto 15px 0;
+}
+
+.ui.right.text.menu.in-menu-masterhead {
+    height: 33px;
+    padding: 0;
+    margin: 20px 283px 22px 584px;
+}
+
+.text-login.in-menu-masterhead {
+    min-width: 32px;
+    font-size: 16px;
+    color: #ffffff;
+    padding-top: 6px;
+    /*note: margin-left of text is better to be auto or 0*/
+    margin: 0 auto 0 0;
+}
+
+.ui.circular.button.in-menu-masterhead {
+    background-color: #fcc416;
+    width: 112px;
+    height: 33px;
+    padding: 0;
+    margin: 0 0 0 30px;
+}
+
+.image-key.in-menu-masterhead {
+    /*note: see note for padding-bottom in .text-register.in-menu-masterhead*/
+    margin: 6px 13px -4px 0;
+}
+
+.text-register.in-menu-masterhead {
+    min-width: 32px;
+    font-size: 16px;
+    color: #654303;
+    /*note: padding-bottom is not applied because of the image-key.
+    Change margin-bottom of image-key and it will be seen.*/
+    /*padding-bottom: 12px;*/
+    /*note: margin-left of text is better to be auto or 0*/
+    margin: 5px auto 5px 0;
+    /*note1: margin-top/bottom is not applicable for inline elements like span.
+    Make span display: inline-block so that it can be inline as well as block.*/
+    /*note2: display is not necessay as the padding-bottom is not applied.
+    see above note for padding-bottom.*/
+    /*display: inline-block;*/
+}
+/*-----------------------------masterhead(ender)-----------------------------*/
+/*----------------------------displaywindow(begin)----------------------------*/
+.ui.vertical.basic.segment.displaywindow {
+    height: 922px;
+    background-color: #f3f3f3;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    padding: 0;
+    /*doubt: confusing why bg-image has an invisible margin 60px*/
+    margin: 0;
+    /*note: search "缩小窗口时CSS背景图出现右侧空白" for more info*/
+    width:expression(document.body.clientWidth <= 960? "960px": "auto");
+    min-width:960px;
+}
+/*----------------------------displaywindow(ender)----------------------------*/
+/*----------------------------searchwindow(begin)----------------------------*/
+.ui.container.searchwindow {
+    width: 878px;
+    height: 904px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    top: 188px;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%,0);
+}
+
+.ui.two.column.grid.in-searchpanel {
+
+}
+
+.column.first.in-searchpanel {
+    width: 288px;
+}
+
+.column.second.in-searchpanel {
+    width: 590px;
+}
+/*----------------------------searchwindow(ender)----------------------------*/
+/*-------------------------------footer(begin)-------------------------------*/
+/*do not repeat yourself*/
+.ui.vertical.segment.footer {
+    height: 281px;
+}
+
+.ui.container.footer {
+    width: 879px;
+    min-width: 879px;
+    /*note: height is uncessary for a container*/
+    /*height: 281px;*/
+    /*note: better to use padding for a container than margin*/
+}
+
+.ui.grid.footer {
+
+}
+
+.four.wide.column.in-footer {
+    padding-top: 24px;
+    background-color: #ffffff;
+}
+
+.ui.vertical.text.menu.in-footer {
+
+}
+
+.item.header-in-menu-footer {
+    min-width: 64px;
+    font-size: 16px;
+    color: #666666;
+    padding-left: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 20px !important;
+}
+
+.item.in-menu-footer {
+    min-width: 48px;
+    font-size: 12px;
+    color: #979797;
+    padding-left: 0 !important;
+    margin-top: 0px !important;
+    margin-bottom: 11px !important;
+}
+
+.ui.divider.in-footer {
+    border: solid 1px #d8d8d8;
+    margin-top: 19px;
+}
+
+.text-left.in-footer {
+    min-width: 226px;
+    font-size: 13px;
+    color: #979797;
+    margin-top: 8px;
+    margin-bottom: 22px;
+    display: inline-block;
+}
+
+.text-right.in-footer {
+    min-width: 128px;
+    font-size: 13px;
+    color: #979797;
+    margin-top: 8px;
+    margin-bottom: 22px;
+    margin-left: 508px;
+    display: inline-block;
+}
+/*-------------------------------footer(ender)-------------------------------*/

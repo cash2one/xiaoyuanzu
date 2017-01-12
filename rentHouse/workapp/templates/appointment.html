@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>提交预约</title>
+        <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title">
+        <link rel="stylesheet" href="{% static 'css/Commit.css' %}" media="screen" title="no title">
+    </head>
+    <body>
+        <!-- 灰色的背景 -->
+        <div class="ui view">
+          {% if request.user.is_authenticated %}
+            <!-- 中间的白色部分 -->
+            <form class="ui form" method="post">
+                {% csrf_token %}
+                <div class="ui text menu">
+                    <div class="menu login">
+                        预约看房
+                    </div>
+                    <a href="{% url 'index' %}" class="ui image close_right">
+                        <img src="/static/image/close_icon2.png" alt="" />
+                    </a>
+                </div>
+                <div class="ui view yellow_login"></div>
+                <div class="ui divider"></div>
+
+                <div class="two fields">
+                    <div class="field">
+                        <select class="ui fluid dropdown" style="-moz-appearance: none;-webkit-appearance: none;">
+                            <option value="">预约日期</option>
+                            <option value="AL">2016年11月6日</option>
+                            <option value="AL">2016年11月7日</option>
+                            <option value="AL">2016年11月8日</option>
+                            <option value="AL">2016年11月9日</option>
+                            <option value="AL">2016年11月10日</option>
+                            <option value="AL">2016年11月11日</option>
+                        </select>
+                    </div>
+
+                    <div class="field right">
+                        <select class="ui fluid dropdown" style="-moz-appearance: none;-webkit-appearance: none;">
+                            <option value="">预约时间</option>
+                            <option value="AL">09:00</option>
+                            <option value="AK">10:00</option>
+                            <option value="AL">11:00</option>
+                            <option value="AL">12:00</option>
+                            <option value="AL">13:00</option>
+                            <option value="AL">14:00</option>
+                            <option value="AL">15:00</option>
+
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- <div class="field">
+                    <input type="text" name="first-name" placeholder="姓名">
+                </div>
+                <div class="field">
+                    <input type="text" name="last-name" placeholder="手机号">
+                </div> -->
+                {% for field in form %}
+                    <div class="field">
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="ui circular right button" >
+                    预约
+                    <i class="chevron inverted right icon"></i>
+                </button>
+
+            </form>
+              {% endif %}
+        </div>
+    </body>
+</html>

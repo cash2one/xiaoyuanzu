@@ -1,0 +1,100 @@
+#top_menu {
+	background-color: rgba(118, 118, 118, 0.5);
+	height: 75px;
+}
+
+#top_left_header {
+	color: white;
+	margin-bottom: 10px;
+}
+
+#top_right_header{
+	color: white;
+	margin:0px 20px;
+}
+
+#button_inner_text{
+	color: #654303;
+	font-size: 14px;
+	margin-left: 10px; 
+}
+
+
+#nav {
+	background-image: url(../image/banner_bg.png);
+	background-size: cover;
+	height: 228px;
+	margin: 0px;
+}
+
+.ui.circular.yellow.button {
+	position: relative;
+	height: 33px;
+	width: 112px;
+}
+
+.item {
+	padding: 0px;
+}
+
+#middle_content{
+	background-color: #f3f3f3;
+	height: 835px;
+	margin: 0px;
+}
+
+#middle_inner_content{
+	height: 820px;
+	width: 878px;
+	position: relative;
+	margin-left: 50%;
+	margin-top: -5%;
+}
+
+.ui.nine.column.grid > .column {
+	width: 63px;
+	padding: 0px;
+	margin-top: 25px;
+	margin-left: 5px;
+}
+
+.four.wide.column > .ui.basic.segment {
+	padding: 0px;
+}
+
+.four.wide.column > .ui.clearing.basic.segment > h1{
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-size: 35px;
+	color: #654303;
+}
+
+.four.wide.column > .ui.clearing.basic.segment > h4{
+	margin-top: 20px;
+	color: #654303;
+}
+
+#button_1{
+	width: 219px;
+	height: 72px;
+	position: relative;
+	background-color: #fcc416;
+}
+
+#middle_bottom_content{
+	padding-left: 0px;
+	margin-top: 40px;
+}
+
+#middle_bottom_content > p{
+	line-height: 200%;
+}
+
+ul{
+	padding-left: 14px;
+}
+
+li{color: #fcc92b;margin-top: 5px;}
+
+li > span {color: black;}
+

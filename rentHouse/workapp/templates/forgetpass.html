@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>personal center</title>
+    <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" media="screen" title="no title">
+  </head>
+  <body>
+    <div class="ui segment rectangle" style="height:228px;margin:0;padding: 0px;">
+      <div class="ui top invertd borderless menu" style="height:75px;background-color:rgba(0, 0, 0, 0.2);border-radius: 0px;">
+        <h3 class="header inverted item zu" style="position:absolute;top:10px;left:200px;">
+            <img src="/static/image/logo.png" alt="" style="width:25.9px;height:38px;"/>
+            <span style="font-family:SourceHanSansSC-Normal;font-size:24px;font-weight:normal;font-style: normal;font-stretch:normal;text-align:left;color:#ffffff;padding-left:5px;">校园租</span>
+        </h3>
+         <div class="right menu" style="position:absolute;top:25px;left:1000px;display:none;">
+              <div class="ui inverted middle aligned header">
+                <div class="ui middle aligned mini image">
+                  <img src="/upload/" alt="" style="width:26px;height:26px;"/>
+                </div>
+               <span style="font-family:SourceHanSansSC-Normal;font-size:16px;font-weight: normal;font-style:normal;font-stretch: normal;text-align:left;color:#ffffff;">{{request.user.user_info.name}}</span>
+              </div>
+         </div>
+      </div>
+
+      <h5 class="ui header xinxi" style="width:104px;height: 38px;font-family: SourceHanSansSC-Normal;font-size:26px;font-weight:normal;font-style: normal;font-stretch: normal;color: #ffffff;">
+        我的信息
+      </h5>
+
+     </div>
+
+  <div class="ui segment" style="width:1440px;height:393px;margin:0;padding:0;background-color:#f3f3f3;box-shadow: none;">
+
+  </div>
+
+
+  <div class="ui container segment ziliao" style="background-color:#ffffff;box-shadow: none;">
+
+    <div class="ui basic segment" style="position:relative;left:233px;">
+     <div class="ui text inverted header">
+       <a href="/userinfo" class="ui inverted button" style="box-shadow: none !important;font-family:SourceHanSansSC-Normal;font-size: 18px;width:150px;height:40px;border-radius:8px 8px 0 0;background-color:#4a4a4a;margin:0;">我的预约</a>
+       <a href="/alteruser"class="ui inverted button" style="box-shadow: none !important;font-family:SourceHanSansSC-Normal;font-size: 18px;width:150px;height:40px;margin-right:0;border-radius:8px 8px 0 0;background-color:#fcc416;">我的资料</a>
+       <div class="ui attached divider" style="margin-top:0;width:368px;border:solid 2px #fcc416;position:absolute;top:48px;right:466px;"></div>
+     </div>
+     <div class="ui tiny images">
+       <h5 style="width:56px;height:20px;font-family:SourceHanSansSC-Normal;font-size:14px;font-weight: normal;font-style:normal;font-stretch:normal;color:#666666;">选择头像</h5>
+       <img class="ui image" src="/static/image/matt.png" style="width: 50px;height: 50px;border-radius: 5px;border: solid 3px #fcc416;margin-bottom:13px;">
+       <img class="ui image" src="/static/image/elliot.png" style="width:50px;height:50px;margin-bottom:13px;margin-left:26px;">
+       <img class="ui image" src="/static/image/jenny.png" style="width:50px;height:50px;margin-bottom:13px;margin-left:26px;">
+       <img class="ui image" src="/static/image/joe.png" style="width:50px;height:50px;margin-bottom:13px;margin-left:26px;">
+       <img class="ui image" src="/static/image/christian.png" style="width:50px;height:50px;margin-bottom:13px;margin-left:26px;">
+     </div>
+        <script>
+            {% if tips %}
+            alert("{{ tips }}");
+            {% if "登录页面" in tips %}
+            window.location.href="/login";
+            {% endif %}
+            {% endif %}
+        </script>
+     <form class="ui form xiugai" method="post" style="width:370px;">
+       <div class="field">
+        <span style="width:70px;height:20px;font-family:SourceHanSansSC-Normal;font-size:14px;font-weight: normal;font-style:normal;font-stretch:normal;color:#666666;">请输入邮箱</span>
+        <input type="text" name="username" style="margin-top:3px;">
+       </div>
+       <div class="field" style="margin-bottom:37px;">
+         <span style="width:56px;height:20px;font-family:SourceHanSansSC-Normal;font-size:14px;font-weight: normal;font-style:normal;font-stretch:normal;color:#666666;margin-bottom:37px;">新密码输入</span>
+        <input type="password" name="password" style="margin-top:3px;">
+        </div>
+        <button type="submit" class="ui inverted right icon button" style="background:url('/static/image/button.png');width:120px;height:40px;border-radius:24px;position:relative;left:229px;">保存修改<i class="angle right large icon" style="font-weight:bold;position:relative;top:-2px;right:-5px"></i>
+        </button>
+         {% csrf_token %}
+      </form>
+      </div>
+  </div>
+
+
+
+   <div class="ui vertical very padded segment" style="padding-left:0;box-shadow: none;">
+     <div class="ui basic segment bottom" style="width:879px;height:278px;position:relative;left:200px;">
+          <div class="ui grid">
+            <div class="four wide column">
+               <div class="ui vertical text menu">
+                 <div class="item">
+                   <h3 class="ui header">关于我们</h3>
+                 </div>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   常见问题
+                 </a>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   联系我们
+                 </a>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   加入我们
+                 </a>
+               </div>
+            </div>
+
+            <div class="four wide column">
+               <div class="ui vertical text menu">
+                 <div class="item">
+                   <h3 class="ui header">热门房源</h3>
+                 </div>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   北京大学
+                 </a>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   清华大学
+                 </a>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   人民大学
+                 </a>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   北京邮电
+                 </a>
+               </div>
+            </div>
+
+            <div class="four wide column">
+               <div class="ui vertical text menu">
+                 <div class="item">
+                   <h3 class="ui header">关注我们</h3>
+                 </div>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   关注微博
+                 </a>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   关注微信
+                 </a>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   关注头条号
+                 </a>
+                 <a class="item" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   关注知乎
+                 </a>
+               </div>
+            </div>
+
+            <div class="four wide column">
+               <div class="ui vertical text menu fankui">
+                 <div class="item" style="padding-left:0px;">
+                   <h3 class="ui header">反馈问题</h3>
+                 </div>
+                 <div class="description one" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   欢迎写邮件给我们反馈
+                 </div>
+                 <div class="description two" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   邮箱地址：
+                 </div>
+                 <a class="description three" style="margin-bottom:2px;font-family:SourceHanSansSC-Normal;font-size: 12px;font-weight:normal;font-style: normal;font-stretch: normal;text-align:left;color:#979797;">
+                   hi@mugglecoding.com
+                 </a>
+
+               </div>
+
+            </div>
+          </div>
+
+            <div class="ui divider"> </div>
+
+            <div class="ui text borderless menu">
+             <div class="item" style="font-family:SourceHanSansSC-Normal;font-size:13px;font-weight:normal;font-style: normal;font-stretch:normal;text-align:left;color:#979797;">
+              Developed by Mugglecoding team xxx
+             </div>
+
+             <div class="right menu">
+              <div class="item" style="font-family:SourceHanSansSC-Normal;font-size:13px;font-weight:normal;font-style: normal;font-stretch:normal;text-align:left;color:#979797;">
+               京ICP备15047012号-2
+             </div>
+            </div>
+           </div>
+          </div>
+
+    </div>
+  </body>
+</html>

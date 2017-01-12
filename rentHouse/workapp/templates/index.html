@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>校园租 - 首页</title>
+        <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="{% static 'css/CampusRenting-LandingPage.css' %}" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="{% static 'css/Login.css' %}" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="{% static 'css/Register.css' %}" media="screen" title="no title">
+        <script type="text/javascript" src="{% static 'js/vue1.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/reqwest.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+    </head>
+    <body id="app" style="overflow: scroll;">
+<!-- - - - - - - - - - - - - - - - - banner - - - - - - - - - - - - - - - - -->
+        <div class="ui vertical basic segment banner">
+    <!-- - - - - - - - - - - - - masterhead - - - - - - - - - - - - -->
+            <div class="ui vertical segment masterhead">
+                <div class="ui text menu in-masterhead">
+                    <!-- CampusRenting logo-image -->
+                    <a class="image-logo in-menu-masterhead" href="{% url 'index' %}">
+                        <img src="{% static 'image/租房项目切图/1首页/logo.png' %}" alt="" />
+                    </a>
+                    <!-- CampusRenting logo-text -->
+                    <a class="text-logo in-menu-masterhead" href="{% url 'index' %}">校园租</a>
+                    <!-- right menu -->
+                    <div class="ui right text menu in-menu-masterhead" style="position: relative">
+                        {% if request.user.is_authenticated %}
+                            <img src="/upload/{{ request.user.user_info.avatar }}" alt="" class="ui avatar image" />
+                            <span style="position: relative; top: 15%; margin-left: 5px; color: #FFF; font-size: 1.2rem; font-weight: 700">{{ request.user.user_info.name }}</span>
+                            <div class="ui circular button" style="width: 100px; height: 33px; margin-left: 20px; padding-top: 0; padding-bottom: 0; background-color: #fcc416; line-height: 33px" >
+                                <a href="{% url 'logout' %}" class="text-register in-menu-masterhead">退出</a>
+                            </div>
+                        {% else %}
+                            <!-- login -->
+                            {% verbatim %}
+                            <a v-on:click="login.show=!login.show" class="text-login in-menu-masterhead" href="#">登录</a>
+                            {% endverbatim %}
+                            <!-- register button -->
+                            {% verbatim %}
+                            <a href="#" class="ui circular button in-menu-masterhead" v-on:click="register.show=!register.show">
+                            {% endverbatim %}
+                                <img class="image-key in-menu-masterhead" src="{% static 'image/租房项目切图/1首页/key_icon.png' %}" alt="" />
+
+                                <span class="text-register in-menu-masterhead">注册</span>
+
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    <!-- - - - - - - - - - - - - searchpanel - - - - - - - - - - - - -->
+            <div class="ui vertical basic segment seachpanel">
+                <div class="ui container searchpanel">
+                    <form action="{% url 'list' %}" method="get">
+                        <div class="ui borderless menu in-searchpanel">
+                            <!-- searchbox -->
+                            <div class="ui search selection dropdown in-searchpanel" >
+                                <div class="ui form">
+                                    <div class="field">
+                                        <select name="area_id" style="height: 63px;-moz-appearance: none;-webkit-appearance: none;">
+                                            {% for area in area_list %}
+                                                <option value="{{ area.id }}">{{ area.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="ui button in-searchpanel">
+                                搜索
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+<!-- - - - - - - - - - - - - - - displaywindow - - - - - - - - - - - - - - -->
+        <div class="ui vertical basic segment displaywindow">
+            <div class="ui container displaywindow">
+                <!-- first row -->
+                <h1 class="ui header in-displaywindow">精选优质房源</h1>
+                <div class="ui center aligned three column grid in-displaywindow">
+
+                    {% verbatim %}
+                    <div v-show="house_length()" v-for="house in excellent_house_list" class="left aligned column in-displaywindow">
+                        <div class="ui card in-displaywindow">
+                            <a class="image in-card">
+                                <a class="label in-card">{{ house.label }}</a>
+                                <img src="{{ house.pic_max }}" alt="" style="height: 114px" />
+                            </a>
+                            <div class="content in-card">
+                                <a class="header in-card" href="/detail/{{ house.id }}" target="_blank">{{ house.area_to.first.name }}附近房源</a>
+                                <div class="ui divider in-card"></div>
+                                <div class="description in-card">
+                                    {{ house.houseIntroduce }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-show="!house_length()" style="padding: 1rem; font-size: 36px; line-height: 228px">
+                            对不起，目前无优质精选房源
+                    </div>
+                    {% endverbatim %}
+
+
+                </div>
+                <!-- second row -->
+                <h1 class="ui header in-displaywindow">毗邻学校周边</h1>
+                <div class="ui center aligned three column grid in-displaywindow">
+                    {%  verbatim %}
+                        <div v-show="near_area_length()" v-for="near_area in near_area_list" class="left aligned column in-displaywindow">
+                            <div class="ui card in-displaywindow">
+                                <div class="image in-card">
+                                    <img src="{{ near_area.picture }}" alt="" style="height: 114px" />
+                                </div>
+                                <div class="content in-card">
+                                    <a class="header in-card" href="/list?area_id={{ near_area.id }}&area={{ near_area.name }}" target="_blank">{{ near_area.name }}附近房源</a>
+                                    <div class="ui divider in-card"></div>
+                                    <div class="description in-card">
+                                        {{ near_area.introduce }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-show="!near_area_length()" style="padding: 1rem; font-size: 36px; line-height: 228px">
+                            对不起，您附近没有学校
+                        </div>
+                    {% endverbatim %}
+
+                </div>
+            </div>
+        </div>
+<!-- - - - - - - - - - - - - - - - - footer - - - - - - - - - - - - - - - - -->
+        <div class="ui vertical segment footer">
+            <div class="ui container footer">
+                <div class="ui grid footer">
+                    <!-- firt column -->
+                    <div class="four wide column in-footer">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">关于我们</h3>
+                            </div>
+                            <div class="item in-menu-footer">常见问题</div>
+                            <div class="item in-menu-footer">联系我们</div>
+                            <div class="item in-menu-footer">加入我们</div>
+                        </div>
+                    </div>
+                    <!-- second column -->
+                    <div class="four wide column in-footer" style="padding-left: 31px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">热门房源</h3>
+                            </div>
+                            <div class="item in-menu-footer">北京大学</div>
+                            <div class="item in-menu-footer">清华大学</div>
+                            <div class="item in-menu-footer">人民大学</div>
+                            <div class="item in-menu-footer">北京邮电</div>
+                        </div>
+                    </div>
+                    <!-- third column -->
+                    <div class="four wide column in-footer" style="padding-left: 62px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">关注我们</h3>
+                            </div>
+                            <div class="item in-menu-footer">关注微信</div>
+                            <div class="item in-menu-footer">关注微薄</div>
+                            <div class="item in-menu-footer">关注头条号</div>
+                            <div class="item in-menu-footer">关注知乎</div>
+                        </div>
+                    </div>
+                    <!-- fourth column -->
+                    <div class="four wide column in-footer" style="padding-left: 93px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">反馈问题</h3>
+                            </div>
+                            <div class="item in-menu-footer" style="line-height: 150%;">
+                                欢迎写邮件向我们反馈<br />
+                                邮箱地址：<br />
+                                hi@mugglecoding.com
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui divider in-footer"></div>
+                <div class="text-left in-footer">
+                    Developed by Mugglecoding team catcuts
+                </div>
+                <div class="text-right in-footer">
+                    京ICP备15047012号-2
+                </div>
+            </div>
+        </div>
+
+        {% verbatim %}
+
+
+        <div class="ui view" v-if="login.show" >
+        {% endverbatim %}
+        <!-- 中间的白色部分 -->
+        <form class="ui form" method="post">
+            {% csrf_token %}
+            <input type="text" name="method" value="login" style="display: none">
+            <div class="ui text menu">
+                <div class="menu login">
+                    登录
+                </div>
+
+                <a href="{% url 'index' %}" class="ui image close_right">
+                    <img src="/static/image/close_icon2.png" alt="" />
+                </a>
+
+            </div>
+            <div class="ui view yellow_login"></div>
+            <div class="ui divider"></div>
+            {% for field in form1 %}
+                <div class="field">
+                    {{ field }}
+                </div>
+            {% endfor %}
+
+            <div class="inline field">
+                <div class="ui checkbox checked">
+                    <input type="checkbox" tabindex="0" name="rememberme" value="yes">
+                    <label>记住我</label>
+                </div>
+                <a href="/forgetpass" class="ui button forget" type="submit">
+                    忘记密码？
+                </a>
+            </div>
+
+            <button type="submit" class="ui circular right button" >
+                登录
+                <i class="chevron inverted right icon"></i>
+            </button>
+
+            </form>
+            {% if error_message %}
+                <div class="ui error message" style="position: absolute; top: calc(50% + 140px); left: 50%; transform: translateX(-50%); width: 484px">
+                    {{ error_message }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="ui view" v-if="register.show">
+            <!-- 中间的白色部分 -->
+            <form class="ui error form" method="post">
+                {% csrf_token %}
+                <input type="text" name="method" value="register" style="display: none">
+                <div class="ui text menu">
+                    <div class="menu login">
+                        注册
+                    </div>
+                    <a href="{% url 'index' %}" class="ui image close_right">
+                        <img src="/static/image/close_icon2.png" alt="" />
+                    </a>
+                </div>
+                <div class="ui view yellow_login"></div>
+                <div class="ui divider"></div>
+                {% for field in form2 %}
+                    <div class="field">
+                        {{ field }}
+                    </div>
+                {% endfor %}
+
+                <button type="submit" class="ui circular right button" >
+                    注册
+                    <i class="chevron inverted right icon"></i>
+                </button>
+
+            </form>
+            {% if form.errors %}
+                <div class="ui error message" style="position: absolute; top: calc(50% + 140px); left: 50%; transform: translateX(-50%); width: 484px">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+        </div>
+    </body>
+    <script>
+        vm = new Vue({
+            el:'#app',
+            data:{
+                area_list:[],
+                excellent_house_list:[],
+                near_area_list:[],
+                login:{
+                    show:false,
+                },
+                register:{
+                    show:false,
+                }
+            },
+            ready:function(){
+                this.getindexapi();
+            },
+            methods:{
+                near_area_length:function () {
+                  if(this.near_area_list.length>0){
+                      return true;
+                  }else{
+                      return false;
+                  }
+                },
+                house_length:function () {
+                  if(this.excellent_house_list.length>0){
+                      return true;
+                  }else{
+                      return false;
+                  }
+                },
+                getindexapi:function(){
+                    var self = this;
+                    reqwest({
+                        url:'/api/index/',
+                        type:'json',
+                        method:'get',
+                        data:{},
+                        success:function (resp) {
+                            console.log(resp);
+                            self.area_list = resp.area_list;
+                            self.excellent_house_list = resp.excellent_house_list;
+                            self.near_area_list = resp.near_area_list;
+
+                        },
+                    })
+                }
+            }
+        })
+    </script>
+</html>

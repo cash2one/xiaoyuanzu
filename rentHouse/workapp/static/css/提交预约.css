@@ -1,0 +1,34 @@
+body{
+	background-image: url(../image/详情页.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+#background{
+	width: 100%;
+	height: 900px;
+	background-color: rgba(0,0,0,0.8);
+}
+
+.ui.segment.container{
+	width: 484px;
+	height: 321px;
+	margin-left: 50%;
+	margin-top: 20%;
+	border-radius: 10px;
+}
+
+.ui.right.floated.image{
+	margin-top: 3px;
+	margin-right: 5px;
+}
+
+.ui.circular.button{
+	
+	width: 120px;
+	height: 40px;
+}
+
+input{
+	border-radius: 10px!important;
+}

@@ -1,0 +1,22 @@
+
+.ui.segment.rectangle {
+  height: 228px;
+  width: 1440px;
+  background: url('../image/banner_bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.ui.container.segment.ziliao {
+  width: 878px;
+  height: 403px;
+  position: absolute;
+  top:188px;
+  left:218px;
+}
+
+.ui.segment.rectangle > .ui.header.xinxi {
+  position: absolute;
+  top:103px;
+  left:218px;
+}

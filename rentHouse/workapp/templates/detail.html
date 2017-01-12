@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>详情页</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/semantic.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/CampusRenting-LandingPage.css' %}" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/详情页.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/Commit.css' %}" media="screen" title="no title">
+        <script src="{% static 'js/vue1.js' %}"></script>
+        <script src="{% static 'js/reqwest.js' %}"></script>
+        <script src="{% static 'js/js.cookie.js' %}"></script>
+	</head>
+
+	<body id="app">
+		<!-- 灰色的背景 -->
+        <div class="ui view" v-show="show_appointment">
+          {% if request.user.is_authenticated %}
+            <!-- 中间的白色部分 -->
+            <form class="ui form" method="post">
+                {% csrf_token %}
+                <div class="ui text menu">
+                    <div class="menu login">
+                        预约看房
+                    </div>
+                    <a v-on:click="show_appointment = !show_appointment" class="ui image close_right">
+                        <img src="/static/image/close_icon2.png" alt="" />
+                    </a>
+                </div>
+                <div class="ui view yellow_login"></div>
+                <div class="ui divider"></div>
+
+                <div class="two fields">
+                    <div class="field">
+                        <select class="ui fluid dropdown" style="-moz-appearance: none;-webkit-appearance: none;">
+                            <option value="">预约日期</option>
+                            <option value="AL">2016年11月6日</option>
+                            <option value="AL">2016年11月7日</option>
+                            <option value="AL">2016年11月8日</option>
+                            <option value="AL">2016年11月9日</option>
+                            <option value="AL">2016年11月10日</option>
+                            <option value="AL">2016年11月11日</option>
+                        </select>
+                    </div>
+
+                    <div class="field right">
+                        <select class="ui fluid dropdown" style="-moz-appearance: none;-webkit-appearance: none;">
+                            <option value="">预约时间</option>
+                            <option value="AL">09:00</option>
+                            <option value="AK">10:00</option>
+                            <option value="AL">11:00</option>
+                            <option value="AL">12:00</option>
+                            <option value="AL">13:00</option>
+                            <option value="AL">14:00</option>
+                            <option value="AL">15:00</option>
+
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- <div class="field">
+                    <input type="text" name="first-name" placeholder="姓名">
+                </div>
+                <div class="field">
+                    <input type="text" name="last-name" placeholder="手机号">
+                </div> -->
+                {% for field in form %}
+                    <div class="field">
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="ui circular right button" >
+                    预约
+                    <i class="chevron inverted right icon"></i>
+                </button>
+
+            </form>
+              {% endif %}
+        </div>
+
+		<div class="ui basic borderless segment" id="nav" style="padding: 0px;">
+			<div class="ui inverted grey basic borderless two item mini menu" id="top_menu">
+			<div class="item">
+				<div class="ui mini image" style="margin-left: -100px;">
+					<img src="/static/image/3详情页/logo.png" />
+				</div>
+				<a href="{% url 'index' %}" class="ui header " id="top_left_header" style="font-size: 2rem">校园租</a>
+			</div>
+
+			<div class="item">
+
+				{% if request.user.is_authenticated %}
+					<img src="/upload/{{ request.user.user_info.avatar }}" alt="" class="ui avatar image" />
+					<span style="position: relative; top: 15%; margin-left: 5px; color: #FFF; font-size: 1.2rem; font-weight: 700">{{ request.user.user_info.name }}</span>
+					<div class="ui circular button" style="width: 100px; height: 33px; margin-left: 20px; padding-top: 0; padding-bottom: 0; background-color: #fcc416; line-height: 33px" >
+						<a href="{% url 'logout' %}" class="text-register in-menu-masterhead">退出</a>
+					</div>
+				{% else %}
+					<!-- login -->
+					<a class="text-login in-menu-masterhead" href="{% url 'login' %}">登录</a>
+					<!-- register button -->
+					<a href="{% url 'register' %}" class="ui circular button in-menu-masterhead">
+						<img class="image-key in-menu-masterhead" src="{% static 'image/租房项目切图/1首页/key_icon.png' %}" alt="" />
+						<span class="text-register in-menu-masterhead">注册</span>
+					</a>
+				{% endif %}
+			</div>
+		</div>
+			<h2 class="ui header" style="position: absolute;margin-left: 220px;margin-top: 40px;color: white;">
+				{{ houseinfo.title }}
+			</h2>
+		</div>
+        {% verbatim %}
+		<div class="ui basic borderless segment" id="middle_content">
+			<div class="ui container segment" id="middle_inner_content">
+				<div class="ui grid">
+					<div class="twelve wide column">
+						<div class="ui image">
+							<img src="{{ vuehouseinfo.houseinfo.pic_max }}" />
+						</div>
+						<div class="ui nine column grid">
+							<div v-on:click="changepic(vuehouseinfo.houseinfo.pic_1)" class="column" style="margin-left: 14px;">
+								<img src="{{ vuehouseinfo.houseinfo.pic_1 }}"  style="border: 1px solid #fcc416;
+border-radius: 5px; height:42px; width:63px " />
+							</div>
+							<div v-on:click="changepic(vuehouseinfo.houseinfo.pic_2)" class="column">
+								<img src="{{ vuehouseinfo.houseinfo.pic_2 }}" style="border: 1px solid #fcc416;
+border-radius: 5px; height:42px; width:63px " />
+							</div>
+							<div v-on:click="changepic(vuehouseinfo.houseinfo.pic_3)" class="column">
+								<img src="{{ vuehouseinfo.houseinfo.pic_3 }}" style="border: 1px solid #fcc416;
+border-radius: 5px; height:42px; width:63px " />
+							</div>
+							<div v-on:click="changepic(vuehouseinfo.houseinfo.pic_4)" class="column">
+                                <img src="{{ vuehouseinfo.houseinfo.pic_4 }}" style="border: 1px solid #fcc416;
+border-radius: 5px; height:42px; width:63px " />
+							</div>
+							<div v-on:click="changepic(vuehouseinfo.houseinfo.pic_5)" class="column">
+                                <img src="{{ vuehouseinfo.houseinfo.pic_5 }}" style="border: 1px solid #fcc416;
+border-radius: 5px; height:42px; width:63px " />
+							</div>
+							<div v-on:click="changepic(vuehouseinfo.houseinfo.pic_6)" class="column">
+                                <img src="{{ vuehouseinfo.houseinfo.pic_6 }}" style="border: 1px solid #fcc416;
+border-radius: 5px; height:42px; width:63px " />
+							</div>
+							<div v-on:click="changepic(vuehouseinfo.houseinfo.pic_7)" class="column">
+                                <img src="{{ vuehouseinfo.houseinfo.pic_7 }}" style="border: 1px solid #fcc416;
+border-radius: 5px; height:42px; width:63px " />
+							</div>
+							<div v-on:click="changepic(vuehouseinfo.houseinfo.pic_8)" class="column">
+								<img src="{{ vuehouseinfo.houseinfo.pic_8 }}" style="border: 1px solid #fcc416;
+border-radius: 5px; height:42px; width:63px " />
+							</div>
+							<div v-on:click="changepic(vuehouseinfo.houseinfo.pic_9)" class="column">
+								<img src="{{ vuehouseinfo.houseinfo.pic_9 }}" style="border: 1px solid #fcc416;
+border-radius: 5px; height:42px; width:63px " />
+							</div>
+						</div>
+						<div class="ui basic segment container" id="middle_bottom_content">
+							<h3 class="ui header">关于此房源</h3>
+							<p><b>周边：</b>{{ vuehouseinfo.houseinfo.circum }} </p>
+							<br />
+							<p><b>交通：</b> {{ vuehouseinfo.houseinfo.translate }}</p>
+						</div>
+					</div>
+					<div class="four wide column" style="padding-left: 0px;">
+						<div class="ui clearing basic segment">
+							<h1 class="ui left floated header">{{ vuehouseinfo.houseinfo.rent }}<h4 class="ui left floated header" >元/月</h4></h1>
+							<h4 class="ui right floated header">{{ vuehouseinfo.houseinfo.type }}</h4>
+
+						</div>
+						<div class="ui basic segment">
+							<h3 class="ui header">房屋</h3>
+							<p>{{ vuehouseinfo.houseinfo.housetype }} - {{ vuehouseinfo.mianji }}m<sup>2</sup> - {{ vuehouseinfo.louceng }}</p>
+							<p>{{ vuehouseinfo.zhuangxiu }} - {{ vuehouseinfo.chaoxiang }} - {{ vuehouseinfo.zhuzhaileixing}}</p>
+							<h3 class="ui header">地址</h3>
+							<p>{{ vuehouseinfo.houseinfo.address }}</p>
+
+                                <p v-for="i in vuehouseinfo.houseinfo.area_to.all">距{{ i.name }}{{ vuehouseinfo.houseinfo.distance }}米</p>
+
+							<h2 class="ui header">小区</h2>
+							<p>{{ vuehouseinfo.houseinfo.community }}</p>
+						</div>
+						<a v-on:click="show_appointment = !show_appointment">
+							<button  class="ui fluid button" id="button_1" style="border-top-left-radius: 0px;border-top-right-radius: 0px;"><h3 class="ui header">我要看房</h3></button>
+						</a>
+							<div class="ui basic segment container" style="margin-top: 40px;">
+								<h3 class="ui header">设施</h3>
+								<ul>
+
+									    <li v-for="i in vuehouseinfo.installations"><span>{{ i }}</span></li>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+        {% endverbatim %}
+        <script>
+            var vm = new Vue({
+                el:"#app",
+                data:{
+                    show_appointment:false,
+                    vuehouseinfo:"",
+
+                },
+                methods:{
+                    changepic:function (pic) {
+                        this.vuehouseinfo.houseinfo.pic_max = pic;
+                    },
+                    readhouseinfo:function (id) {
+                        var self = this;
+                        console.log(id);
+                        reqwest({
+                            url:'/api/detail/'+id,
+                            type:'json',
+                            method:'get',
+                            data:{},
+                            success:function (resp) {
+                                console.log(resp)
+                                self.vuehouseinfo = resp;
+
+                            },
+                        })
+                    },
+                },
+                ready:function () {
+                    this.readhouseinfo({{ id }});
+                }
+            })
+        </script>
+<!-- - - - - - - - - - - - - - - - - footer - - - - - - - - - - - - - - - - -->
+        <div class="ui vertical segment footer">
+            <div class="ui container footer">
+                <div class="ui grid footer">
+                    <!-- firt column -->
+                    <div class="four wide column in-footer">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">关于我们</h3>
+                            </div>
+                            <div class="item in-menu-footer">常见问题</div>
+                            <div class="item in-menu-footer">联系我们</div>
+                            <div class="item in-menu-footer">加入我们</div>
+                        </div>
+                    </div>
+                    <!-- second column -->
+                    <div class="four wide column in-footer" style="padding-left: 31px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">热门房源</h3>
+                            </div>
+                            <div class="item in-menu-footer">北京大学</div>
+                            <div class="item in-menu-footer">清华大学</div>
+                            <div class="item in-menu-footer">人民大学</div>
+                            <div class="item in-menu-footer">北京邮电</div>
+                        </div>
+                    </div>
+                    <!-- third column -->
+                    <div class="four wide column in-footer" style="padding-left: 62px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">关注我们</h3>
+                            </div>
+                            <div class="item in-menu-footer">关注微信</div>
+                            <div class="item in-menu-footer">关注微薄</div>
+                            <div class="item in-menu-footer">关注头条号</div>
+                            <div class="item in-menu-footer">关注知乎</div>
+                        </div>
+                    </div>
+                    <!-- fourth column -->
+                    <div class="four wide column in-footer" style="padding-left: 93px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">反馈问题</h3>
+                            </div>
+                            <div class="item in-menu-footer" style="line-height: 150%;">
+                                欢迎写邮件向我们反馈<br />
+                                邮箱地址：<br />
+                                hi@mugglecoding.com
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui divider in-footer"></div>
+                <div class="text-left in-footer">
+                    Developed by Mugglecoding team catcuts
+                </div>
+                <div class="text-right in-footer">
+                    京ICP备15047012号-2
+                </div>
+            </div>
+        </div>
+	</body>
+
+</html>

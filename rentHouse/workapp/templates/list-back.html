@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>list-page</title>
+    <link rel="stylesheet" href="{% static 'css/list-page.css' %}" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/CampusRenting-LandingPage.css' %}" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title" charset="utf-8">
+</head>
+
+<body style="background: #e5e5e5;">
+    <div class="ui vertical basic segment bg" style="padding: 0px;">
+        <div class="ui inverted top borderless menu" style="background-color: rgba(0, 0, 0, 0.2);top:0px;" >
+            <div class="ui inverted text menu" style="width: 100%;">
+
+                <div class="ui image">
+                    <img src="/static/image/logo.png" alt="" class="logo" />
+                </div>
+
+                <a href="{% url 'index' %}" class="layer1" style="color: #FFF">校园租</a>
+
+                <div class="right menu" style="margin-right: 28%;padding-top: 15px;">
+
+                    {% if request.user.is_authenticated %}
+                        <img src="/upload/{{ request.user.user_info.avatar }}" alt="" class="ui avatar image" />
+                        <span style="margin-top: 5px;position: relative; top: 15%; margin-left: 5px; color: #FFF; font-size: 1.2rem; font-weight: 700">{{ request.user.user_info.name }}</span>
+                        <div class="ui circular button" style="width: 100px; height: 33px; margin-left: 20px; padding-top: 0; padding-bottom: 0; background-color: #fcc416; line-height: 33px" >
+                            <a href="{% url 'logout' %}" class="text-register in-menu-masterhead">退出</a>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="item login">登录</a>
+                        <a href="{% url 'register' %}" class="item">
+                            <button type="button" name="button" class="ui circular orange button">
+                                <img src="/static/image/key_icon.png" alt="" class="key"/>
+                                <span class="fine-tuning">注册</span>
+                            </button>
+                        </a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui basic vertical segment pku-tit">
+            {{area}}搜索结果：{{area_num}}个房源
+        </div>
+
+    </div>
+
+    <div class="content bg">
+        <div class="Rectangle-87">
+            <div class="layer3">
+                筛选
+            </div>
+
+            <div class="ui left floated segment l1" style="box-shadow: none;">
+                <form action="" method="post" enctype="multipart/form-data">
+                <div class="ui vertical basic segment">
+                    <div class="layer4">
+                        按类型
+                        <img src="/static/image/right_icon.png" alt="" style="width:6px;height:11px;margin-left:20.5px;" />
+                        <div class="ui form" style="margin-top: 15px;">
+                            <div class="inline fields">
+                                <div class="field">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" name="frequency" checked="checked" value="整租">
+                                        <label class="layer5">整租</label>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" name="frequency" value="合租">
+                                        <label class="layer5" >合租</label>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" name="frequency" value="月租">
+                                        <label class="layer5" >月租</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui vertical basic segment">
+                    <div class="layer4" style=" margin-top:19px;">
+                        按户型
+                        <img src="/static/image/right_icon.png" alt="" style="width:6px;height:11px;margin-left:20.5px;margin-top:15px;" />
+                    </div>
+                    <div class="ui vertical basic segment form1">
+                        <div class="ui checkbox" style="margin-top:-2px;">
+                            <input type="checkbox" name="example" value="一室一厅一卫">
+                            <label class="layer5_1">一室一厅一卫</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example" value="二室一厅一卫">
+                            <label class="layer5_1">二室一厅一卫</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example" value="三室一厅一卫">
+                            <label class="layer5_1">三室一厅一卫</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example" value="三室一厅两卫">
+                            <label class="layer5_1">三室一厅两卫</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example" value="三室两厅两卫">
+                            <label class="layer5_1">三室两厅两卫</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example" value="四室两厅两卫">
+                            <label class="layer5_1">四室两厅两卫</label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="ui vertical basic segment" style="margin-top:-40px;">
+                    <div class="layer4">
+                        按价格
+                        <img src="/static/image/right_icon.png" alt="" style="width:6px;height:11px;margin-left:20.5px;margin-top:15px;" />
+                    </div>
+
+                    <div class="ui vertical basic segment" style="margin-left:7px;margin-top:25px;">
+                        <img src="/static/image/pricechoose_bg.png" alt="" class="pricechoose" />
+                        <img src="/static/image/pricechoose.png" alt="" class="pricechoose1" />
+                        <img src="/static/image/handler_icon.png" alt="" class="pricechoose2" />
+                        <img src="/static/image/handler_icon.png" alt="" class="pricechoose3" />
+                    </div>
+
+                    <div class="ui vertical basic segment form1" style="margin-top:-2px;">
+                        <div type="button" name="button" class="Rectangle-105">
+                        <input type="input" name="rent" class="ui basic segment price1" value="1" style="margin-right: 35px;">
+
+                        </input>
+                      </div>
+
+                        <div type="button" name="button" class="Rectangle-105">
+                        <input type="input" name="rent"   class="ui basic segment price1" value="8000">
+
+                        </input>
+                      </div>
+
+
+                    </div>
+                </div>
+
+                <div class="ui vertical basic segment">
+                    <div class="layer4" style="margin-top:10px;">
+                        按设施
+                        <img src="/static/image/right_icon.png" alt="" style="width:6px;height:11px;margin-left:20.5px;margin-top:15px;" />
+                    </div>
+                    <div class="ui vertical basic segment form1" style="margin-top:5px;">
+                        <div class="ui checkbox" style="margin-top:-2px;">
+                            <input type="checkbox" name="example1" value="独立卫生间">
+                            <label class="layer5" style="width: 100px;">独立卫生间</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example1" value="独立阳台">
+                            <label class="layer5" style="width: 88px;">独立阳台</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example1" value="厨房">
+                            <label class="layer5">厨房</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example1" value="淋浴">
+                            <label class="layer5">淋浴</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example1" value="空调">
+                            <label class="layer5">空调</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example1" value="电视">
+                            <label class="layer5">电视</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example1" value="网络">
+                            <label class="layer5">网络</label>
+                        </div>
+                        </br>
+                        <div class="ui checkbox" style="margin-top:-20px;">
+                            <input type="checkbox" name="example1" value="暖气">
+                            <label class="layer5">暖气</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="ui vertical basic segment">
+                    <div style="width: 100%;background-color: #fcc416;height: 35px;text-align: center;border-radius: 5px;">
+                        {% csrf_token %}
+                        <button type="submit" style="height: 100%;background: none;border: none;">完成筛选</button>
+                    </div>
+
+                </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="ui right floated segment r1" style="box-shadow: none;">
+          <div class="ui borderless text menu" style="margin-top:2px;">
+            <div class="layer6">
+                排序
+            </div>
+
+            <div class="ui dropdown sort" style="border: none;text-align:center;margin-right:10px;">
+                <div class="ui form" >
+                    <div class="field">
+                        <select style="height: 40px;-moz-appearance: none;-webkit-appearance: none;">
+                            <option value="2" name="jiage">价格升序</option>
+                            <option value="1" name="jiage">价格降序</option>
+                                <!--{% for obj in obj_list %}-->
+                                    <!--<option value ="{{ forloop.counter }}">{{ obj }}</option>-->
+                                <!--{% endfor %}-->
+                        </select>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="ui divider" style="margin-top:-2px;"></div>
+            {% if house_list  %}
+                {% for list in house_list %}
+                    <div class="ui three column grid">
+                        {% for house_data in list %}
+                            <div class="column">
+                                <!--{{house_data.installations}}-->
+                              <div class="ui inverted segment card-view" style="background: url('/upload/{{ house_data.pic_max }}');background-size: contain;"></div>
+                              <div class="ui inverted segment card-bottom">
+
+                                <div class="ui vertical segment suub">
+                                  <div class="layer8">
+                                    ¥ {{house_data.rent}}/月
+
+                                  </div>
+                                  <div class="layer9">
+                                    <a href="{% url 'detail' house_data.id %}">{{house_data.title | slice:'10'}}</a>
+                                  </div>
+                                  <div class="layer10">
+                                    {{house_data.translate | slice:'10'}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                    <div class="ui three column grid">
+                        {% for house_data in house_list_data %}
+                            <div class="column">
+                                <!--{{house_data.installations}}-->
+                              <div class="ui inverted segment card-view" style="background: url('/upload/{{house_data.pic_max}}');background-size: contain;"></div>
+                              <div class="ui inverted segment card-bottom">
+                                <div class="ui vertical segment suub">
+
+                                  <div class="layer8">
+                                    ¥ {{house_data.rent}}/月
+                                  </div>
+                                  <div class="layer9">
+                                    <a href="{% url 'detail' house_data.id %}">{{house_data.title | slice:'10'}}</a>
+                                  </div>
+                                  <div class="layer10">
+                                    {{house_data.translate | slice:'10'}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+            {% endif %}
+            <div class="ui vertical basic segment" style="width: 95%;position: absolute;bottom: 3%;">
+            <div class="ui left floated segment l2">
+                {% if house_info_list.has_previous %}
+                        <a href="?area={{area}}&page={{ house_info_list.previous_page_number }}" class="item">
+                        <i class="angle left big icon"></i>
+                        </a>
+                {% else %}
+                        <a href="?area={{area}}&page={{ house_info_list.start_index }}" class="item">
+                        <i class="angle left big icon"></i>
+                        </a>
+                {% endif %}
+
+            </div>
+              <div class="ui borderless text menu num">
+                {% for page in page_range%}
+
+                    {% if page == page_num %}
+                        <div class="item-num" style="background-color: #fcc416;">
+                            <div class="layer12">
+                                <a href="{% url 'list' %}?area={{area}}&page={{ page }}">
+                                    {{ page_num }}
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a class="item-num" href="{% url 'list' %}?area={{area}}&page={{ page }}">
+                            {{ page }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
+
+
+              </div>
+                <div class="ui right floated segment r2">
+                    {% if house_info_list.has_next %}
+                        <a href="?area={{area}}&page={{ house_info_list.next_page_number }}" class="item">
+                        <i class="angle right big icon"></i>
+                        </a>
+                    {% else %}
+                        <a href="?area={{area}}&page={{ house_info_list.end_index }}" class="item">
+                        <i class="angle right big icon"></i>
+                        </a>
+                    {% endif %}
+
+                </div>
+
+
+
+          </div>
+
+          </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- - - - - - - - - - - - - - - - - footer - - - - - - - - - - - - - - - - -->
+        <div class="ui vertical segment footer" style="background-color: white;position: absolute;width: 100%;margin-top: 0px;">
+            <div class="ui container footer">
+                <div class="ui grid footer">
+                    <!-- firt column -->
+                    <div class="four wide column in-footer">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">关于我们</h3>
+                            </div>
+                            <div class="item in-menu-footer">常见问题</div>
+                            <div class="item in-menu-footer">联系我们</div>
+                            <div class="item in-menu-footer">加入我们</div>
+                        </div>
+                    </div>
+                    <!-- second column -->
+                    <div class="four wide column in-footer" style="padding-left: 31px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">热门房源</h3>
+                            </div>
+                            <div class="item in-menu-footer">北京大学</div>
+                            <div class="item in-menu-footer">清华大学</div>
+                            <div class="item in-menu-footer">人民大学</div>
+                            <div class="item in-menu-footer">北京邮电</div>
+                        </div>
+                    </div>
+                    <!-- third column -->
+                    <div class="four wide column in-footer" style="padding-left: 62px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">关注我们</h3>
+                            </div>
+                            <div class="item in-menu-footer">关注微信</div>
+                            <div class="item in-menu-footer">关注微薄</div>
+                            <div class="item in-menu-footer">关注头条号</div>
+                            <div class="item in-menu-footer">关注知乎</div>
+                        </div>
+                    </div>
+                    <!-- fourth column -->
+                    <div class="four wide column in-footer" style="padding-left: 93px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">反馈问题</h3>
+                            </div>
+                            <div class="item in-menu-footer" style="line-height: 150%;">
+                                欢迎写邮件向我们反馈<br />
+                                邮箱地址：<br />
+                                hi@mugglecoding.com
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui divider in-footer"></div>
+                <div class="text-left in-footer">
+                    Developed by Mugglecoding team catcuts
+                </div>
+                <div class="text-right in-footer" style="float: right;margin-left: 0px;">
+                    京ICP备15047012号-2
+                </div>
+            </div>
+        </div>
+
+<script type="text/JavaScript">
+
+function foo(){
+   var noties = document.frm.olala.value;
+    var sel = document.getElementById('jiage')
+     var sels = document.getElementsByName('jiage')}
+</script>
+
+</body>
+
+</html>

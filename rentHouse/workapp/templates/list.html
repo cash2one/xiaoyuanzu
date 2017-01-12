@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>list-page</title>
+        <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="{% static 'css/list-page.css' %}" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="{% static 'css/CampusRenting-DetailPage.css' %}" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.28/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/reqwest/2.0.5/reqwest.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.js"></script>
+    </head>
+    {% verbatim %}
+    <body id="app" style="overflow: scroll;" class="dimmable {{ canScroll }}">
+
+        <div v-show="loader.show" class="ui active inverted dimmer">
+            <div class="ui loader"></div>
+        </div>
+
+<!-- - - - - - - - - - - - - - - banner(begin) - - - - - - - - - - - - - - -->
+        <div class="ui vertical basic segment banner">
+            <div class="text-srch-rslt in-banner">
+                <!-- 注意houselist.area_to的结构是{[..],[..],...} -->
+                {{ houselist[0].area_to[0].name }}搜索结果 - {{ houselist.length }}个房源
+            </div>
+    <!-- - - - - - - - - - - - - masterhead(begin) - - - - - - - - - - - - -->
+            <div class="ui vertical segment masterhead">
+                <div class="ui text menu in-masterhead">
+    {% endverbatim %} <!-- - - - - - - - - django模板（开始）- - - - - - - - -->
+                    <!-- CampusRenting logo-image -->
+                    <a class="image-logo in-menu-masterhead" href="#">
+                        <img src="{% static 'image/logo.png' %}" alt="" />
+                    </a>
+                    <!-- CampusRenting logo-text -->
+                    <a class="text-logo in-menu-masterhead" href="{% url 'index' %}">校园租</a>
+                    <!-- right menu -->
+                    <div class="ui right text menu in-menu-masterhead">
+                        {% if request.user.is_authenticated %}
+                            <!-- login -->
+                            <a class="text-login in-menu-masterhead" href="/userinfo/" style="padding-top:2px;">
+                                <div class="ui rounded image" style="width: 28px; height: 28px; margin-right: 6px">
+                                    <img src="/upload/{{ request.user.user_info.avatar }}" alt="" />
+                                </div>
+                                {{ request.user.username }}
+                            </a>
+                            <!-- register button -->
+                            <a href="{% url 'alteruser' %}">
+                                <div class="ui circular button in-menu-masterhead">
+                                    <span class="text-register in-menu-masterhead" style="margin-top:8px;display:inline-block;">退出</span>
+                                </div>
+                            </a>
+                        {% else %}
+                            <!-- login -->
+                            <a class="text-login in-menu-masterhead" href="{% url 'login' %}">登录</a>
+                            <!-- register button -->
+                            <a href="{% url 'register' %}">
+                                <div class="ui circular button in-menu-masterhead">
+                                    <span class="text-register in-menu-masterhead" style="margin-top:8px;display:inline-block;">注册</span>
+                                </div>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    {% verbatim %} <!-- - - - - - - - - django模板（结束）- - - - - - - - -->
+            <!-- 注意这个的位置！ -->
+            <!--{% ifequal house_list_count house_area_count %}-->
+            <div class="text-srch-rslt in-banner" style="top:143px;">
+                筛选结果 - {{ houselist_filtered.length }}个房源
+            </div>
+    <!-- - - - - - - - - - - - - masterhead(ender) - - - - - - - - - - - - -->
+        </div>
+<!-- - - - - - - - - - - - - - - banner(ender) - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - displaywindow(begin) - - - - - - - - - - - - - -->
+        <div class="ui vertical basic segment displaywindow">
+
+        </div>
+<!-- - - - - - - - - - - - - displaywindow(ender) - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - searchwindow(begin) - - - - - - - - - - - - - -->
+        <div class="ui container searchwindow">
+            <div class="Rectangle-87">
+                <div class="layer3">
+                    筛选
+                </div>
+
+                <div class="ui left floated segment l1" style="box-shadow: none;">
+                    <form>
+                        <div class="ui vertical basic segment">
+                            <div class="layer4">
+                                按类型
+    {% endverbatim %} <!-- - - - - - - - - django模板（开始）- - - - - - - - -->
+                                <img src="{% static 'image/right_icon.png' %}" alt="" style="width:6px;height:11px;margin-left:20.5px;" />
+    {% verbatim %} <!-- - - - - - - - - django模板（结束）- - - - - - - - -->
+                                <div class="ui form" style="margin-top: 16px !important;">
+                                    <div class="inline fields">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" value="整租" v-model="type">
+                                                <label class="layer5">整租</label>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" value="合租" v-model="type">
+                                                <label class="layer5">合租</label>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" value="月租" v-model="type">
+                                                <label class="layer5">月租</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ui vertical basic segment">
+                            <div class="layer4" style=" margin-top:19px;">
+                                按户型
+    {% endverbatim %} <!-- - - - - - - - - django模板（开始）- - - - - - - - -->
+                                <img src="{% static 'image/right_icon.png' %}" alt="" style="width:6px;height:11px;margin-left:20.5px;margin-top:15px;" />
+    {% verbatim %} <!-- - - - - - - - - django模板（结束）- - - - - - - - -->
+                            </div>
+                            <div class="ui vertical basic segment form1">
+                                <div class="ui checkbox" style="margin-top:-2px;">
+                                    <input type="checkbox" value="一室" v-model="housetype">
+                                    <label class="layer5">一居</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="二室" v-model="housetype">
+                                    <label class="layer5">两居</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="三室" v-model="housetype">
+                                    <label class="layer5">三居</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="四室" v-model="housetype">
+                                    <label class="layer5">四居</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="其他" v-model="housetype">
+                                    <label class="layer5">其他</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ui vertical basic segment" style="margin-top:-40px;">
+
+                            <div class="layer4">
+                                按价格
+    {% endverbatim %} <!-- - - - - - - - - django模板（开始）- - - - - - - - -->
+                                <img src="{% static 'image/right_icon.png' %}" alt="" style="width:6px;height:11px;margin-left:20.5px;margin-top:15px;" />
+                            </div>
+
+                            <div class="ui vertical basic segment" style="margin-left:7px;margin-top:25px;">
+                                <img src="{% static 'image/pricechoose_bg.png' %}" alt="" class="pricechoose" />
+                                <img src="{% static 'image/pricechoose.png' %}" alt="" class="pricechoose1" />
+                                <img src="{% static 'image/handler_icon.png' %}" alt="" class="pricechoose2" />
+                                <img src="{% static 'image/handler_icon.png' %}" alt="" class="pricechoose3" />
+                            </div>
+    {% verbatim %} <!-- - - - - - - - - django模板（结束）- - - - - - - - -->
+                            <div class="ui vertical basic segment form1" style="margin-top:-2px;">
+                                <div class="Rectangle-105">
+                                    <input type="text" class="ui basic segment price1" style="margin-right: 35px;" v-model="price_lower">
+                                </div>
+
+                                <div class="Rectangle-105">
+                                    <input type="text" class="ui basic segment price1" v-model="price_upper">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- 以后试试for循环 -->
+                        <div class="ui vertical basic segment">
+                            <div class="layer4" style="margin-top:10px;">
+                                按设施
+    {% endverbatim %} <!-- - - - - - - - - django模板（开始）- - - - - - - - -->
+                                <img src="{% static 'image/right_icon.png' %}" alt="" style="width:6px;height:11px;margin-left:20.5px;margin-top:15px;" />
+    {% verbatim %} <!-- - - - - - - - - django模板（结束）- - - - - - - - -->
+                            </div>
+                            <div class="ui vertical basic segment form1" style="margin-top:5px;">
+                                <div class="ui checkbox" style="margin-top:-2px;">
+                                    <input type="checkbox" value="独立卫生间" v-model="fac_inc">
+                                    <label class="layer5" style="width: 100px;">独立卫生间</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="独立阳台" v-model="fac_inc">
+                                    <label class="layer5" style="width: 88px;">独立阳台</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="厨房" v-model="fac_inc">
+                                    <label class="layer5">厨房</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="淋浴" v-model="fac_inc">
+                                    <label class="layer5">淋浴</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="空调" v-model="fac_inc">
+                                    <label class="layer5">空调</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="电视" v-model="fac_inc">
+                                    <label class="layer5">电视</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="网络" v-model="fac_inc">
+                                    <label class="layer5">网络</label>
+                                </div>
+                                </br>
+                                <div class="ui checkbox" style="margin-top:-20px;">
+                                    <input type="checkbox" value="暖气" v-model="fac_inc">
+                                    <label class="layer5">暖气</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <div class="ui vertical basic segment" style="padding-top: 32px;">
+                        <div style="width: 100%;background-color: #fcc416;height: 35px;text-align: center;border-radius: 5px;">
+                            <div v-on:click="resetFilter" class="ui button" style="height: 100%;background: none;border: none;"><h4>重置筛选</h4></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="ui right floated segment r1" style="box-shadow: none;">
+                <div class="ui borderless text menu" style="margin-top:2px;">
+                    <div class="layer6">
+                        排序
+                    </div>
+
+                    <div class="ui dropdown sort" style="border: none;text-align:center;margin-right:10px;">
+                        <form class="ui form">
+                            <div class="field">
+                                <select v-model="order" v-on:click="" style="height: 40px;-moz-appearance: none;-webkit-appearance: none;padding-top:6px;">
+                                    <option selected>价格降序</option>
+                                    <option>价格升序</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="ui divider" style="margin-top:-2px;"></div>
+
+                <div class="ui three column grid">
+
+                    <div v-for="house in houselist_filtered.slice(9*(page-1),9*(page-1)+9)" class="column">
+                        <a href="/detail/{{ house.id }}">
+                            <div class="ui inverted segment card-view" v-bind:style="{background: 'url(' + house.pic_max + ')'}" style="background-size: cover;background-repeat: no-repeat;"></div>
+                        </a>
+                        <div class="ui inverted segment card-bottom">
+                            <div class="ui vertical segment suub">
+                                <div class="layer8">¥ {{ house.rent }}/月</div>
+                                <div class="layer9">{{ house.title }}</div>
+                                <div class="layer10">{{ house.type }}-距离{{ house.distance }}米</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 分页机器人（开始）-->
+                <div v-if="totalPageNo > 0" class="ui vertical basic segment" style="margin-top:12px;">
+                    <!-- 左手（开始） -->
+                    <a v-if="page == 1" class="ui left floated segment l2 disabled">
+                        <i class="angle left big icon"></i>
+                    </a>
+                    <a v-else v-on:click="previousPage" class="ui left floated segment l2">
+                        <i class="yellow angle left big icon"></i>
+                    </a>
+                    <!-- 左手（结束） -->
+
+                    <!-- 页码（开始） -->
+                    <div class="ui borderless text menu num">
+                        <!-- todo: how the page nav will be when there are  large amount of pages? -->
+                        <div class="item-num">
+                            <a v-if="page == veryLeftPageNo" v-on:click="turnrollPage(-1)" class="active item" style="height:100%;background-color: #fcc416;">
+                                <h3 style="color: #ffffff;position: absolute;top: 50%;left: 50%;transform: translateX(-50%) translateY(-50%);">
+                                    {{ veryLeftPageNo }}
+                                </h3>
+                            </a>
+                            <a v-else v-on:click="turnrollPage(-1)" class="item" style="height:100%;">
+                                <h3 style="position: absolute;top: 50%;left: 50%;transform: translateX(-50%) translateY(-50%);">
+                                    {{ veryLeftPageNo }}
+                                </h3>
+                            </a>
+                        </div>
+
+                        <div v-for="p in ((totalPageNo <= 9)&&(totalPageNo > 0) ? (totalPageNo-1) : 8)" class="item-num">
+                            <a v-if="page == p + 1 + veryLeftPageNo" v-on:click="turnPage(p)" class="active item" style="height:100%;background-color: #fcc416;">
+                                <h3 style="color: #ffffff;position: absolute;top: 50%;left: 50%;transform: translateX(-50%) translateY(-50%);">
+                                    {{ p + 1 + veryLeftPageNo }}
+                                </h3>
+                            </a>
+                            <a v-else v-on:click="turnPage(p)" class="item" style="height:100%;">
+                                <h3 style="position: absolute;top: 50%;left: 50%;transform: translateX(-50%) translateY(-50%);">
+                                    {{ p + 1 + veryLeftPageNo }}
+                                </h3>
+                            </a>
+                        </div>
+
+                        <div v-show="totalPageNo - veryLeftPageNo >= 9" class="item-num">
+                            <a v-else v-on:click="rolldownPage" class="item" style="height:100%;">
+                                <h3 style="position: absolute;top: 50%;left: 50%;transform: translateX(-50%) translateY(-50%);">
+                                    ...
+                                </h3>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 页码（结束） -->
+
+                    <!-- 右手（开始） -->
+                    <a v-if="page == totalPageNo" class="ui right floated segment r2 disabled">
+                        <i class="angle right big icon"></i>
+                    </a>
+                    <a v-else v-on:click="nextPage" class="ui right floated segment r2">
+                        <i class="yellow angle right big icon"></i>
+                    </a>
+                    <!-- 右手（结束） -->
+                </div>
+                <!-- 分页机器人（结束）-->
+
+                <!-- 无分页显示（开始）-->
+                <div v-else class="ui vertical basic segment" style="margin-top:12px;">
+                    <!-- 左手（开始） -->
+                    <a class="ui left floated segment l2 disabled">
+                        <i class="angle left big icon"></i>
+                    </a>
+                    <!-- 左手（结束） -->
+
+                    <!-- 页码（开始） -->
+                    <h3 v-show="loader.show == false" style="color: #a5a5a5;position: absolute;top: 50%;left: 50%;transform: translateX(-50%) translateY(-25%);">
+    {% endverbatim %} <!-- - - - - - - - - django模板（开始）- - - - - - - - -->
+                        没有您想要的 x_x 再筛选试试吧 <br><br>
+                        或者：点击 <a href="{% url 'index' %}">返回首页</a> 重新搜索~
+    {% verbatim %} <!-- - - - - - - - - django模板（结束）- - - - - - - - -->
+                    </h3>
+                    <!-- 页码（结束） -->
+
+                    <!-- 右手（开始） -->
+                    <a class="ui right floated segment r2 disabled">
+                        <i class="angle right big icon"></i>
+                    </a>
+                    <!-- 右手（结束） -->
+                </div>
+                <!-- 无分页显示（结束）-->
+            </div>
+        </div>
+<!-- - - - - - - - - - - - - searchwindow(ender) - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - footer(begin) - - - - - - - - - - - - - - - -->
+        <div class="ui vertical segment footer">
+            <div class="ui container footer">
+                <div class="ui grid footer">
+                    <!-- firt column -->
+                    <div class="four wide column in-footer">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">关于我们</h3>
+                            </div>
+                            <div class="item in-menu-footer">常见问题</div>
+                            <div class="item in-menu-footer">联系我们</div>
+                            <div class="item in-menu-footer">加入我们</div>
+                        </div>
+                    </div>
+                    <!-- second column -->
+                    <div class="four wide column in-footer" style="padding-left: 31px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">热门房源</h3>
+                            </div>
+                            <div class="item in-menu-footer">北京大学</div>
+                            <div class="item in-menu-footer">清华大学</div>
+                            <div class="item in-menu-footer">人民大学</div>
+                            <div class="item in-menu-footer">北京邮电</div>
+                        </div>
+                    </div>
+                    <!-- third column -->
+                    <div class="four wide column in-footer" style="padding-left: 62px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">关注我们</h3>
+                            </div>
+                            <div class="item in-menu-footer">关注微信</div>
+                            <div class="item in-menu-footer">关注微薄</div>
+                            <div class="item in-menu-footer">关注头条号</div>
+                            <div class="item in-menu-footer">关注知乎</div>
+                        </div>
+                    </div>
+                    <!-- fourth column -->
+                    <div class="four wide column in-footer" style="padding-left: 93px;">
+                        <div class="ui vertical text menu in-footer">
+                            <div class="item header-in-menu-footer">
+                                <h3 class="ui header">反馈问题</h3>
+                            </div>
+                            <div class="item in-menu-footer" style="line-height: 150%;">
+                                欢迎写邮件向我们反馈<br />
+                                邮箱地址：<br />
+                                hi@mugglecoding.com
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui divider in-footer"></div>
+                <div class="text-left in-footer">
+                    Developed by Mugglecoding team catcuts
+                </div>
+                <div class="text-right in-footer">
+                    京ICP备15047012号-2
+                </div>
+            </div>
+        </div>
+<!-- - - - - - - - - - - - - - - footer(ender) - - - - - - - - - - - - - - - -->
+
+        <script>
+            vm = new Vue ({
+                el:"#app", // 作用范围
+//              ----------------------------------------------------------------
+                data:{ // 模板作用范围内及本个Vue实例对象（即vm）中要用到的数据对象
+                    // 注：这里的数据对象可用于模板的渲染，可以用于方法和表达式的调用
+                    loader:{
+                        show:false,
+                    },
+                    houselist:[],
+                    type:[],
+                    housetype:[],
+                    price_lower:0,
+                    price_upper:10000,
+                    fac_inc:[],
+                    page:1,
+                    totalPageNo:9,
+                    veryLeftPageNo:1,
+                    order:"价格降序",
+                },
+//              ----------------------------------------------------------------
+                methods:{ // 作用范围内的元素要用到的方法
+                    // 方法1：获取房源列表
+                    getHouselist:function () {
+                        var self = this;
+                        var area_id = window.location.href;
+                        area_id = area_id.slice(area_id.lastIndexOf("?area_id=")+9, area_id.lastIndexOf("?area_id=")+10);
+                        console.log(area_id);
+                        self.loader.show = !self.loader.show;
+                        reqwest ({ //reqwest.js 提供的请求api返回数据的方法
+                            url:'/api/searchhouselist/' + area_id, // 请求的api的url （思考端口如何动态变化？）
+                            type:'json', // 请求数据类型：json
+                            // method:'get', // 请求方法（若为get可以省略）
+                            data:{ // 请求参数（请求的同时要改变或提交的数据）
+                                // 注意：格式 “左:右” 左数据名称要与数据模型一致
+
+                            },
+                            success:function (resp) { // 请求成功做什么
+                                console.log(resp[0]);
+                                // 注意：这里用到的数据对象最好在vm的data里有定义
+                                self.loader.show = !self.loader.show;
+                                self.houselist = resp;
+                            },
+                            error:function (err) { //请求失败做什么
+                                console.log(err);
+                                self.loader.show = !self.loader.show;
+                            }
+                        })
+                    },
+                    // 注：不需要“完成筛选”这个按钮了，可以不必提交而实时显示筛选结果
+                    // 方法2：校验价格输入
+
+                    // 方法3：上滚页
+                    rollupPage:function () {
+                        (this.veryLeftPageNo > 1) ? (this.veryLeftPageNo --) : (1);
+                    },
+                    // 方法4：上一页
+                    previousPage:function () {
+                        this.page --;
+                        if (this.page < this.veryLeftPageNo) {
+                            this.rollupPage();
+                        };
+                    },
+                    // 方法5：翻页
+                    turnPage:function (p) {
+                        this.page = p + 1 + this.veryLeftPageNo;
+                    },
+                    // 方法6：下滚页
+                    rolldownPage:function () {
+                        this.veryLeftPageNo ++;
+                    },
+                    // 方法7：下一页
+                    nextPage:function () {
+                        this.page ++;
+                        if (this.page >= this.veryLeftPageNo + 9) {
+                            this.rolldownPage();
+                        };
+                    },
+                    // 方法8：翻页并滚页
+                    turnrollPage:function (p) {
+                        this.turnPage(p);
+                        this.rollupPage();
+                    },
+                    // 方法9：按价格排序
+                    sortByRent:function (arrayOfObjects) {
+                        var byRent = arrayOfObjects.slice(0);
+                        if (this.order == "价格升序") {
+                            byRent.sort(function(a,b) {
+                                return a.rent - b.rent;
+                            });
+                        };
+                        if (this.order == "价格降序") {
+                            byRent.sort(function(a,b) {
+                                return b.rent - a.rent;
+                            });
+                        };
+                        return byRent;
+                    },
+                    // 方法10：重置筛选
+                    resetFilter:function () {
+                        this.type = [];
+                        this.housetype = [];
+                        this.price_lower = 0;
+                        this.price_upper = 10000;
+                        this.fac_inc = [];
+                        this.order = "价格降序";
+                    },
+                },
+//              ----------------------------------------------------------------
+                computed:{ // 作用范围内的元素要用到的表达式（表达式不同于方法）
+                    // 注意：引用的数据对象只能来自vm的data，return的是字符串
+                    // 计算1：过滤房源列表
+                    houselist_filtered:function () {
+                        console.log("here is houselist filter!");
+                        var self = this;
+                        // 不能用if(self.type) 因为self.type总不是真空
+                        var filterEnable =
+                            self.type.length ||
+                            self.housetype.length ||
+                            (self.price_lower != 0) ||
+                            (self.price_upper != 10000) ||
+                            self.fac_inc.length;
+                        if (filterEnable) {
+                            var newList = self.houselist.filter(function (house) {
+                                    var filtering_type = false;
+                                    if (self.type.length) {
+                                        for (var i = 0; i < self.type.length; i++) {
+                                            filtering_type = filtering_type || (house.type == self.type[i]);
+                                        };
+                                    } else {
+                                        filtering_type = true;
+                                    };
+                                    var filtering_housetype = false;
+                                    if (self.housetype.length) {
+                                        for (var i = 0; i < self.housetype.length; i++) {
+                                            filtering_housetype = filtering_housetype || (house.housetype_short == self.housetype[i]);
+                                        };
+                                    } else {
+                                        filtering_housetype = true;
+                                    };
+                                    var filtering_price_lower = false;
+                                    if (self.price_lower != 0) {
+                                        self.price_lower = self.price_lower == "" ? 0 : self.price_lower;
+                                        filtering_price_lower = filtering_price_lower || (house.rent >= self.price_lower);
+                                    } else {
+                                        filtering_price_lower = true;
+                                    };
+                                    var filtering_price_upper = false;
+                                    if (self.price_upper != 10000) {
+                                        self.price_upper = self.price_upper == "" ? 10000 : self.price_upper;
+                                        filtering_price_upper = filtering_price_upper || (house.rent <= self.price_upper);
+                                    } else {
+                                        filtering_price_upper = true;
+                                    };
+                                    var filtering_fac_inc = true;
+                                    if (self.fac_inc.length) {
+                                        for (var i = 0; i < self.fac_inc.length; i++) {
+                                            filtering_fac_inc = filtering_fac_inc && (house.installations.indexOf(self.fac_inc[i]) != -1);
+                                        };
+                                    } else {
+                                        filtering_fac_inc = true;
+                                    };
+                                    return (filtering_type && filtering_housetype && filtering_price_lower && filtering_price_upper && filtering_fac_inc);
+                                })
+                        } else {
+                            var newList = self.houselist;
+                        };
+                        self.totalPageNo = Math.ceil(newList.length / 9);
+                        self.page = 1;
+                        self.veryLeftPageNo = 1;
+                        return newList = self.sortByRent(newList);
+                    },
+                },
+//              ----------------------------------------------------------------
+                ready:function () { // Vue实例对象（即vm）被创建后首先要做什么
+                    console.log("here is ready!");
+                    this.getHouselist();
+                }
+//              ----------------------------------------------------------------
+            })
+        </script>
+
+    </body>
+    {% endverbatim %}
+</html>
